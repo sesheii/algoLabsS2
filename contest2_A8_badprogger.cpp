@@ -3,6 +3,15 @@
 #include <numeric>
 using namespace std;
 
+long long sum(vector<int>::iterator first, vector<int>::iterator second) {
+    long long result = 0;
+    for (auto i = first; i <= second; ++i){
+        result += *i;
+        std::cout << *i << ' ';
+    }
+    return result;
+}
+
 int main() {
     int N;
     cin >> N;
@@ -13,56 +22,23 @@ int main() {
     }
 
     long long bro = 0, me = 0;
-    int i = 0, j = N-1;
 
-    bool queue = true;
+    auto i = v.begin();
+    auto j = v.end();
 
-    while (i < j) {
+    vector<int>::iterator mid = (v.begin() + (distance(i,j)/2 + distance(i,j)%2 - 1));
+    sum(i,mid);
+    std::cout << '\n';
+    sum(mid,j);
 
-        if (j - i == 1) {
-            if (queue)
-                bro += std::max(v[i],v[j]);
-            else
-                me += std::max(v[i],v[j]);
+//    cout << *mid << '\n';
+//    cout << accumulate(i,mid,0) << ' ' << accumulate(mid + 1, j, 0);
 
-            queue = !queue;
+//    while (i != j) {
+//        vector<int>::iterator mid = (v.begin() + (distance(i,j)/2 + distance(i,j)%2 - 1));
+//
+//    }
 
-            if (queue)
-                bro += std::min(v[i],v[j]);
-            else
-                me += std::min(v[i],v[j]);
-
-            break;
-        }
-
-        int mid = (i + j)/2;
-        long long left_sum = sum(i, mid, v);
-        long long right_sum = sum(mid + 1, j, v);
-        std::cout << "L: " << i << " R: " << j << " M: " << mid << " left_sum: " << left_sum << " right_sum: " << right_sum << '\n';
-
-        if (right_sum > left_sum) {
-
-            if (queue)
-                bro += right_sum;
-            else
-                me += right_sum;
-
-            j = mid;
-
-        } else {
-
-            if (queue)
-                bro += right_sum;
-            else
-                me += right_sum;
-
-            i = mid;
-
-        }
-
-        queue = !queue;
-    }
-
-    std::cout << std::min(bro, me) << ' ' << std::max(bro, me);
+//    std::cout << std::min(bro, me) << ' ' << std::max(bro, me);
 
 }
